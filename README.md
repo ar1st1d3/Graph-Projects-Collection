@@ -44,10 +44,8 @@ Bienvenue dans la collection de projets sur les graphes ! Ce dépôt contient un
 **Description** : Ce projet aide les utilisateurs à trouver le meilleur itinéraire entre deux points en fonction de divers critères (temps, distance, coût, etc.). Le réseau de transport est représenté comme un graphe non orienté, où chaque nœud représente une intersection et chaque arête représente une route entre deux intersections.
 
 **Fonctionnalités** :
-- Calcul d'itinéraire.
-- Sélection de critères pour l'itinéraire.
-- Navigation détaillée.
-- Visualisation de l'itinéraire.
+- Calcul d'itinéraire le plus rapide.
+- Visualisation de la carte avec la longueur des chemin.
 
 **Dossier** : [Planificateur de Trajets](./planificateur_trajets)
 
