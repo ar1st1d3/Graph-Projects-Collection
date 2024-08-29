@@ -2,6 +2,8 @@
 
 Bienvenue dans la collection de projets sur les graphes ! Ce dépôt contient une variété de projets qui utilisent des graphes non orientés pour résoudre différents types de problèmes. Chaque projet est conçu pour vous aider à mieux comprendre les concepts des graphes et à appliquer ces concepts à des applications pratiques.
 
+<img src="/images/cover.jpg">
+
 ## Table des Matières
 
 - [Projets](#projets)
