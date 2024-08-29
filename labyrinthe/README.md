@@ -7,7 +7,6 @@ Bienvenue dans le projet de générateur de labyrinthes ! Ce projet utilise des 
 - [Description](#description)
 - [Fonctionnalités](#fonctionnalités)
 - [Installation](#installation)
-- [Utilisation](#utilisation)
 
 ## Description
 
