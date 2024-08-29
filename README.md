@@ -27,7 +27,7 @@ Bienvenue dans la collection de projets sur les graphes ! Ce dépôt contient un
 
 **Dossier** : [Labyrinthe](./labyrinthe)
 
-### Simulateur de Réseau Social
+### Simulateur de Réseau Social [A VENIR]
 
 **Description** : Ce projet simule un réseau social où les utilisateurs peuvent se connecter en tant qu'amis. Le réseau social est représenté comme un graphe non orienté, où chaque nœud représente un utilisateur et chaque arête représente une connexion d'amitié entre deux utilisateurs.
 
@@ -49,7 +49,7 @@ Bienvenue dans la collection de projets sur les graphes ! Ce dépôt contient un
 
 **Dossier** : [Planificateur de Trajets](./planificateur_trajets)
 
-### Simulateur de Réseau Électrique
+### Simulateur de Réseau Électrique [A VENIR]
 
 **Description** : Ce projet simule un réseau électrique où les centrales électriques, les sous-stations et les consommateurs sont connectés par des lignes électriques. Le réseau électrique est représenté comme un graphe non orienté, où chaque nœud représente une centrale électrique, une sous-station ou un consommateur, et chaque arête représente une ligne électrique entre deux nœuds.
 
@@ -62,7 +62,7 @@ Bienvenue dans la collection de projets sur les graphes ! Ce dépôt contient un
 
 **Dossier** : [Réseau Électrique](./reseau_electrique)
 
-### Simulateur de Réseau de Transport
+### Simulateur de Réseau de Transport [A VENIR]
 
 **Description** : Ce projet simule un réseau de transport où les villes sont connectées par des routes. Le réseau de transport est représenté comme un graphe non orienté, où chaque nœud représente une ville et chaque arête représente une route entre deux villes.
 
