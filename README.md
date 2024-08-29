@@ -11,9 +11,6 @@ Bienvenue dans la collection de projets sur les graphes ! Ce dépôt contient un
   - [Simulateur de Réseau Électrique](#simulateur-de-réseau-électrique)
   - [Simulateur de Réseau de Transport](#simulateur-de-réseau-de-transport)
 - [Installation](#installation)
-- [Utilisation](#utilisation)
-- [Contribution](#contribution)
-- [Licence](#licence)
 
 ## Projets
 
