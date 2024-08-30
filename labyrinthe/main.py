@@ -97,80 +97,12 @@ def algo_prim(matrice):
     # Un graphe minimal, où chaque arête éclaire.
     return matrice_prim
 
-# Dans les méandres d'un donjon, se dessine un plan,
-# Un labyrinthe de cases, une aventure sans fin.
-def creer_donjon(matrice, n):
-    n *= 4
-    donjon = [["." for _ in range(n)] for _ in range(n)]
-
-    # Une liste d'adjacence, pour guider le destin,
-    # De chaque salle, chaque couloir, chaque chemin.
-    liste_d_adjacence = {}
-    for i in range(len(matrice)):
-        liste_d_adjacence[i] = []
-        for j in range(len(matrice)):
-            if matrice[i][j] > 0:
-                liste_d_adjacence[i].append(j)
-
-    # Le centre est choisi, le cœur du labyrinthe,
-    # Là où commence l'errance, où s'étire la plainte.
-    x = n // 2
-    y = n // 2
-    l = []
-    ajout_case(liste_d_adjacence, 0, n, l, x, y, donjon)
-
-    # Le donjon est tracé, tel un rêve incarné,
-    # Chaque salle, chaque couloir, dans la matrice est gravé.
-    return donjon
-
-# Une pièce est ajoutée, où s'étend le carré,
-# Chaque coin est marqué, chaque passage refermé.
-def ajout_case(liste_d_adjacence, key, n, l, x, y, donjon):
-    if key in l:
-        return
-
-    # Un carré est formé, en neuf petits points,
-    # Tel un pavé de lumière, où l'ombre n'a point de loin.
-    carré = [[x-1, y-1],[x, y-1],[x+1, y-1],[x-1, y+1],[x, y+1],[x+1, y+1],[x-1, y],[x, y],[x+1, y]]
-    for [dx, dy] in carré:
-        if [dx, dy] == [x, y]:
-            donjon[dx][dy] = key
-        elif 0 <= dx < n and 0 <= dy < n and donjon[dx][dy] == ".":
-            donjon[dx][dy] = "#"
-
-    # Le chemin se prolonge, les portes se dessinent,
-    # Pour qu'un nouvel horizon se dessine dans la brume fine.
-    l.append(key)
-
-    for i in liste_d_adjacence[key]:
-        if i not in l:
-            k = randint(1, 4)
-            if k == 1 and x + 4 < n:
-                donjon[x+2][y] = "|"
-                ajout_case(liste_d_adjacence, i, n, l, x+4, y, donjon)
-            elif k == 2 and x - 4 >= 0:
-                donjon[x-2][y] = "|"
-                ajout_case(liste_d_adjacence, i, n, l, x-4, y, donjon)
-            elif k == 3 and y + 4 < n:
-                donjon[x][y+2] = "-"
-                ajout_case(liste_d_adjacence, i, n, l, x, y+4, donjon)
-            elif k == 4 and y - 4 >= 0:
-                donjon[x][y-2] = "-"
-                ajout_case(liste_d_adjacence, i, n, l, x, y-4, donjon)
-
-# Enfin, le donjon s'éveille, dans une mosaïque de pierres,
-# Où chaque ligne raconte, une histoire de mystères.
-def affichage_donjon(donjon): 
-    for ligne in donjon:
-        print(" ".join(map(str, ligne)))
 
 # La matrice prend vie, sous l'ombre des chiffres,
-# Et le donjon se trace, à travers les lignes et les chiffres.
+# Et le labyrinthe se trace, à travers les lignes et les chiffres.
 matrice =  creation_graphe_pondéré(6)
 matrice_prim = algo_prim(matrice)
-donjon = creer_donjon(matrice_prim, 6)
 
 # L'affichage se fait, tel un tableau suspendu,
-# Où le graphe et le donjon, sont enfin étendus.
-affichage_donjon(donjon)
+# Où le graphe et le labyrinthe, sont enfin étendus.
 afficher_graphe_graphique(matrice_prim)
