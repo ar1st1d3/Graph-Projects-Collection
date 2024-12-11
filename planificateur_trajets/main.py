@@ -1,170 +1,182 @@
+import tkinter as tk
+from tkinter import messagebox
 import networkx as nx
 import matplotlib.pyplot as plt
 import math
 
-# Là où naissent les cités, par des mots chuchotés,
-# Se dessine un monde, d'horizons étoilés.
-def creation_villes(): 
-    n = int(input("Entrez le nombre de villes à créer : "))
-    villes = {}
+# Initialisation des données globales
+villes = {}
+routes = []
 
-    # Chaque ville, chaque nom, est une étoile nouvelle,
-    # Sur la toile du monde, elle trace sa parcelle.
-    for i in range(n): 
-        nom = input("Entrez le nom de la ville : ")
-        x = int(input("Entrez l'abscisse de la ville : "))
-        y = int(input("Entrez l'ordonnée de la ville : "))
+def ajouter_ville():
+    """Ajoute une ville à la liste des villes."""
+    # Par la main de l'homme, la ville se dessine,
+    # Sur la carte du monde, un éclat, une vitrine.
+    nom = entry_nom.get()
+    print(f"Tentative d'ajout de la ville: {nom}")  # Pour explorer les ombres où l'erreur s'imagine
+    try:
+        x = int(entry_x.get())
+        y = int(entry_y.get())
+        print(f"Coordonnées saisies: ({x}, {y})")  # Chaque nombre invoqué d'un abîme s'illumine
+        if nom in villes:
+            print(f"Erreur: La ville '{nom}' existe déjà.")  # Le chaos surgit, les destins se devinent
+            messagebox.showerror("Erreur", "Cette ville existe déjà.")
+        else:
+            villes[nom] = (x, y)
+            print(f"Ville ajoutée: {nom} -> ({x}, {y})")  # Une étoile nouvelle dans l'obscur se devine
+            messagebox.showinfo("Succès", f"Ville '{nom}' ajoutée avec succès.")
+            entry_nom.delete(0, tk.END)
+            entry_x.delete(0, tk.END)
+            entry_y.delete(0, tk.END)
+    except ValueError:
+        print("Erreur: Les coordonnées doivent être des nombres entiers.")  # Une faille insondable, où le sens s'exténue
+        messagebox.showerror("Erreur", "Les coordonnées doivent être des nombres entiers.")
 
-        villes[nom] = [x, y]
+def afficher_carte():
+    """Affiche la carte des villes et des routes."""
+    # Par l'art de l'image, les cités s'enlacent,
+    # Dans un réseau fragile, leur lien s'efface.
+    print("Affichage de la carte des villes et des routes.")  # Les rouages du monde se révèlent, tenaces
+    if not villes:
+        print("Erreur: Aucune ville disponible.")  # L'ombre murmure : aucun lieu ne prend place
+        messagebox.showerror("Erreur", "Aucune ville n'est disponible pour afficher la carte.")
+        return
 
-    # Ainsi, se lève le jour, où les villes sont nées,
-    # Chacune dans sa place, de mystères imprégnée.
-    print(villes)
-    return villes
-
-# Entre les cités, des routes se tracent,
-# Des liens de distance, où le hasard s'efface.
-def ajout_routes(): 
-    routes = []
-    n = int(input('Indiquer le nombre de routes : '))
-
-    # Chaque route, chaque chemin, un fil sur le parchemin,
-    # Liant les villes, comme les rêves au matin.
-    for i in range(n): 
-        routes.append(input("Indiquer une route avec le départ et la destination").split(" "))
-
-    # Les routes sont tracées, sur cette carte invisible,
-    # Liant les destins, dans un réseau indicible.
-    print(routes)
-    return routes
-
-# Sur la carte du monde, les villes se révèlent,
-# Et les routes serpentent, comme des rivières cruelles.
-def afficher_carte(villes, routes):
     G = nx.Graph()
 
-    # Les nœuds se dressent, comme des étoiles dans le ciel,
-    # Portant les noms des villes, dans un silence éternel.
+    # Chaque ville brille, une étoile dans l'ombre,
+    # Posée sur la carte où les mystères sombrent.
     for ville, (x, y) in villes.items():
         G.add_node(ville, pos=(x, y))
 
-    # Chaque route se tisse, dans l'ombre du destin,
-    # Reliant deux cités, comme le jour à demain.
+    # Les routes sinueuses relient l'infini,
+    # Chaque fil tissé tremble, au bord de la nuit.
     for ville1, ville2 in routes:
         d = math.sqrt((villes[ville1][0] - villes[ville2][0])**2 + (villes[ville1][1] - villes[ville2][1])**2)
         G.add_edge(ville1, ville2, weight=d)
 
-    # Les positions des nœuds se dessinent comme une toile,
-    # Où chaque ville brille, dans l'espace sépulcral.
     pos = {ville: data['pos'] for ville, data in G.nodes(data=True)}
-
-    # Le graphe s'étend, tel un réseau de lumière,
-    # Chaque lien, chaque ville, chante sa prière.
     plt.figure(figsize=(10, 8))
     nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=700, font_size=12, font_weight='bold', edge_color='gray')
-
-    # Les distances murmurent, entre les lignes tracées,
-    # Chaque route porte un chiffre, dans son ombre délaissé.
     labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-
     plt.show()
-    
-# Dans la brume de l'incertain, Dijkstra s'avance,
-# Cherchant le chemin le plus court, parmi les distances.
-def algo_Dijkstra(villes, villeDepart, villeFin, liste):
-    # Le début du voyage, par les routes des étoiles,
-    # Cherchant la ville finale, sous un ciel de voiles.
-    fin = False
-    ville_actuel = villeDepart
-    distance_actuel = 0
-    ville_possible = []
-    ville_visite = {villeDepart: None}
-    distances = {villeDepart: 0}
+    print("Carte affichée avec succès.")  # La vision s'accomplit, le futur s'entrelace
 
-    # Si les routes se ferment, et que le voyage échoue,
-    # L'espoir s'éteint, dans un soupir, d'un seul coup.
-    if liste[villeDepart] == [] or liste[villeFin] == []:
-        return "Il est impossible de rejoindre " + villeFin + " depuis " + villeDepart
+def ajouter_route():
+    """Ajoute une route entre deux villes existantes."""
+    # Dans les ténèbres, un chemin est tracé,
+    # Reliant deux mondes que tout semblait séparer.
+    ville1 = entry_ville1.get()
+    ville2 = entry_ville2.get()
 
-    while not fin:
-        # Les villes possibles se dessinent sur la carte,
-        # Telles des ombres furtives, cherchant leur part.
-        for v in liste[ville_actuel]:
-            if v not in ville_visite:
-                distance = distance_actuel + math.sqrt((villes[v][0] - villes[ville_actuel][0])**2 + (villes[v][1] - villes[ville_actuel][1])**2)
-                ville_possible.append([v, distance, ville_actuel])
+    print(f"Tentative d'ajout de route entre: {ville1} et {ville2}")  # Des liens inachevés se tissent dans l'éthéré
+    if ville1 not in villes or ville2 not in villes:
+        print("Erreur: L'une des villes spécifiées n'existe pas.")  # Un gouffre sans fond, où l'idée se jetait
+        messagebox.showerror("Erreur", "L'une des villes spécifiées n'existe pas.")
+    elif ville1 == ville2:
+        print("Erreur: Une route doit relier deux villes différentes.")  # Une boucle insensée, où l'ordre s'arrêtait
+        messagebox.showerror("Erreur", "Une route doit relier deux villes différentes.")
+    else:
+        routes.append((ville1, ville2))
+        print(f"Route ajoutée entre {ville1} et {ville2}")  # Un pont invisible, que le destin créait
+        messagebox.showinfo("Succès", f"Route entre '{ville1}' et '{ville2}' ajoutée avec succès.")
+        entry_ville1.delete(0, tk.END)
+        entry_ville2.delete(0, tk.END)
 
-        # Quand le choix semble vide, et le chemin bloqué,
-        # L'âme cherche une issue, dans la nuit voilée.
-        if ville_possible == []:
-            return "Il est impossible de rejoindre " + villeFin + " depuis " + villeDepart
+def calculer_plus_court_chemin():
+    """Calcule le plus court chemin entre deux villes avec l'algorithme de Dijkstra."""
+    # Sur les sentiers perdus, entre l'ombre et le feu,
+    # Dijkstra s'avance, brisant le silence affreux.
+    ville_depart = entry_chemin_depart.get()
+    ville_arrivee = entry_chemin_arrivee.get()
 
-        # Le destin choisit, parmi les ombres errantes,
-        # La ville au plus court, dans sa course haletante.
-        distance_min = math.inf
-        for [v, d, v_prec] in ville_possible:
-            if d < distance_min:
-                distance_min = d
-                v_pre = v_prec
-                ville_actuel = v
+    print(f"Calcul du plus court chemin entre: {ville_depart} et {ville_arrivee}")  # La quête d'une lumière dans les recoins hideux
+    if ville_depart not in villes or ville_arrivee not in villes:
+        print("Erreur: L'une des villes spécifiées n'existe pas.")  # Une impasse nocturne où l'esprit est fiévreux
+        messagebox.showerror("Erreur", "L'une des villes spécifiées n'existe pas.")
+        return
 
-        # La distance est gravée, dans les souvenirs des routes,
-        # Et la ville visitée, dans le livre des déoutes.
-        distances[ville_actuel] = distance_min
-        ville_visite[ville_actuel] = v_pre
-
-        # Le chemin s'efface, tandis qu'on avance,
-        # Vers la ville prochaine, où repose l'espérance.
-        ville_possible = [vp for vp in ville_possible if vp[0] != ville_actuel]
-
-        # Si la ville de fin se dessine à l'horizon,
-        # Le voyage se termine, dans une douce raison.
-        if ville_actuel == villeFin:
-            fin = True
-
-    # Le chemin se reconstruit, comme un fil d'Ariane,
-    # Suivant la trace des villes, jusqu'à la dernière cabane.
-    chemin = []
-    v = villeFin
-    while v is not None:
-        chemin.insert(0, v)
-        v = ville_visite[v]
-
-    # Et ainsi se termine, cette odyssée des villes,
-    # Où chaque pas comptait, dans ce voyage subtil.
-    return chemin, ville_visite
-
-# Une liste d'adjacence, comme un réseau secret,
-# Qui lie chaque ville, dans un ordre discret.
-def creation_liste_adjacense(routes, villes):
-    liste_adjacense = {ville: [] for ville in villes}
+    G = nx.Graph()
+    for ville, (x, y) in villes.items():
+        G.add_node(ville, pos=(x, y))
     for ville1, ville2 in routes:
-        liste_adjacense[ville1].append(ville2)
-        liste_adjacense[ville2].append(ville1)
-    return liste_adjacense
+        d = math.sqrt((villes[ville1][0] - villes[ville2][0])**2 + (villes[ville1][1] - villes[ville2][1])**2)
+        G.add_edge(ville1, ville2, weight=d)
 
-# Quelques villes éminentes, dressées fièrement,
-# Et les routes qui les lient, comme un lien émouvant.
-villes = {
-    'Paris': (48.8566, 2.3522),
-    'London': (51.5074, -0.1278),
-    'Berlin': (52.5200, 13.4050),
-    'Madrid': (40.4168, -3.7038),
-    'Rome': (41.9028, 12.4964)
-}
-routes = [
-    ('Paris', 'London'),
-    ('Paris', 'Berlin'),
-    ('London', 'Berlin'),
-    ('Madrid', 'Rome'),
-    ('Berlin', 'Rome')
-]
+    try:
+        chemin = nx.shortest_path(G, source=ville_depart, target=ville_arrivee, weight='weight')
+        distance = nx.shortest_path_length(G, source=ville_depart, target=ville_arrivee, weight='weight')
+        print(f"Chemin trouvé: {chemin} avec une distance de {distance}")  # Une étoile guide, le destin sinueux
+        messagebox.showinfo("Résultat", f"Plus court chemin: {' -> '.join(chemin)}\nDistance: {distance:.2f}")
+    except nx.NetworkXNoPath:
+        print("Erreur: Aucun chemin trouvé.")  # La lumière s'éteint, le néant tumultueux
+        messagebox.showerror("Erreur", "Aucun chemin trouvé entre ces deux villes.")
 
-# La carte s'anime, et les routes se dessinent,
-# Chaque ville s'éveille, dans la lumière divine.
-afficher_carte(villes, routes)
+# Création de la fenêtre principale
+root = tk.Tk()
+root.title("Gestion des Villes et Routes")
 
-# Dijkstra avance, dans un souffle suspendu,
-# Cherchant le chemin, où tout est inconnu.
-print(algo_Dijkstra(villes, "Paris", "Rome", creation_liste_adjacense(routes, villes)))
+# Interface pour ajouter des villes
+frame_villes = tk.LabelFrame(root, text="Ajouter une ville")
+frame_villes.pack(padx=10, pady=10, fill="x")
+
+label_nom = tk.Label(frame_villes, text="Nom de la ville :")
+label_nom.pack(anchor="w")
+entry_nom = tk.Entry(frame_villes)
+entry_nom.pack(fill="x")
+
+label_x = tk.Label(frame_villes, text="Coordonnée X :")
+label_x.pack(anchor="w")
+entry_x = tk.Entry(frame_villes)
+entry_x.pack(fill="x")
+
+label_y = tk.Label(frame_villes, text="Coordonnée Y :")
+label_y.pack(anchor="w")
+entry_y = tk.Entry(frame_villes)
+entry_y.pack(fill="x")
+
+btn_ajouter_ville = tk.Button(frame_villes, text="Ajouter la ville", command=ajouter_ville)
+btn_ajouter_ville.pack(pady=5)
+
+# Interface pour ajouter des routes
+frame_routes = tk.LabelFrame(root, text="Ajouter une route")
+frame_routes.pack(padx=10, pady=10, fill="x")
+
+label_ville1 = tk.Label(frame_routes, text="Ville de départ :")
+label_ville1.pack(anchor="w")
+entry_ville1 = tk.Entry(frame_routes)
+entry_ville1.pack(fill="x")
+
+label_ville2 = tk.Label(frame_routes, text="Ville d'arrivée :")
+label_ville2.pack(anchor="w")
+entry_ville2 = tk.Entry(frame_routes)
+entry_ville2.pack(fill="x")
+
+btn_ajouter_route = tk.Button(frame_routes, text="Ajouter la route", command=ajouter_route)
+btn_ajouter_route.pack(pady=5)
+
+# Interface pour le calcul du plus court chemin
+frame_chemin = tk.LabelFrame(root, text="Calculer le plus court chemin")
+frame_chemin.pack(padx=10, pady=10, fill="x")
+
+label_chemin_depart = tk.Label(frame_chemin, text="Ville de départ :")
+label_chemin_depart.pack(anchor="w")
+entry_chemin_depart = tk.Entry(frame_chemin)
+entry_chemin_depart.pack(fill="x")
+
+label_chemin_arrivee = tk.Label(frame_chemin, text="Ville d'arrivée :")
+label_chemin_arrivee.pack(anchor="w")
+entry_chemin_arrivee = tk.Entry(frame_chemin)
+entry_chemin_arrivee.pack(fill="x")
+
+btn_calculer_chemin = tk.Button(frame_chemin, text="Calculer", command=calculer_plus_court_chemin)
+btn_calculer_chemin.pack(pady=5)
+
+# Bouton pour afficher la carte
+btn_afficher_carte = tk.Button(root, text="Afficher la carte", command=afficher_carte)
+btn_afficher_carte.pack(pady=10)
+
+# Lancement de l'application
+root.mainloop()
+
